@@ -22,6 +22,260 @@
 
 <div class="container containerM">
 
+  <fieldset class="container border border-success rounded pb-3 mb-4">
+    <legend style="display: inline; width: auto ">Choose the option:</legend>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="options" id="radio-genKeys" onchange="genKeys();">
+      <label class="form-check-label" for="radio-genKeys">
+        Generate keys
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="options" id="radio-cipher" onchange="cipher();" checked>
+      <label class="form-check-label" for="radio-cipher">
+        Cipher document
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="options" id="radio-sign" onchange="sign();">
+      <label class="form-check-label" for="radio-sign">
+        Sign document
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="options" id="radio-cipherandsign" onchange="cipherandsign();">
+      <label class="form-check-label" for="radio-cipherandsign">
+        Cipher and Sign document
+      </label>
+    </div>
+  </fieldset>
+
+  <section id="genKeys" hidden>
+    <div class="container bg-blue-light2 py-3 rounded">
+      <p class="h2 text-white">Generate random keys</p>
+      <div class="col">
+        <button type="button" class="centrado btn btn-outline-danger btn-lg btn-block btn-danger mb-2" style="color: white" onclick="generarLlaves();">Generate Keys</button>
+      </div>
+      <div class="row">
+        <!-- Text area to insert the private key from the sender -->
+        <div class="col-sm my-1">
+          <div class="container bg-blue-light py-2 rounded cardFeas shadow-sm">
+            <div class="texto">
+              <label for="key__cypherPrivateKey" class="text-white">Public key generated</label>
+            </div>
+            <textarea class="form-control texto bg-yellow-light" id="key__cypherPrivateKey" rows="5" readonly></textarea>
+            <div class="ancla">
+              <a href="#" id="key__downloadPublicKey"  download class="centrado btn btn-success ancla" target=”_blank” style="color:black;">
+                <span>Download public key</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- Text area to insert the public key from the recipient -->
+        <div class="col-sm my-1">
+          <div class="container bg-blue-light py-2 rounded cardFeas shadow-sm">
+            <div class="texto">
+              <label for="key__cypherPublicKey" class="text-white">Private key generated </label>
+            </div>
+            <textarea class="form-control texto bg-yellow-light" id="key__cypherPublicKey" rows="5" readonly></textarea>
+            <div class="ancla">
+              <a href="#" id="key__downloadPrivateKey"  download class="centrado btn btn-success ancla" target=”_blank” style="color:black;">
+                <span>Download private key</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="cipher">
+    <div class="container bg-blue-light2 py-3 rounded">
+      <p class="h2 text-white">Cipher document</p>
+      <div class="row">
+        <!-- Text area to insert the private key from the sender -->
+        <div class="col-sm my-1">
+          <div class="container bg-blue-light py-2 rounded cardFeas shadow-sm">
+            <div class="texto">
+              <label for="cipher__cypherPrivateKey" class="text-white">Insert public key</label>
+            </div>
+            <textarea class="form-control texto bg-yellow-light" id="cipher__cypherPrivateKey" rows="5"></textarea>
+            <input type="file" id="inputLoadFile--cipher__cypherPrivateKey" name="cipher__cypherPrivateKey" class="mt-2"/>
+          </div>
+        </div>
+        <!-- Text area to insert the public key from the recipient -->
+        <div class="col-sm my-1">
+          <div class="container bg-blue-light py-2 rounded cardFeas shadow-sm">
+            <div class="texto">
+              <label for="cipher__cypherPublicKey" class="text-white">Insert the text to cipher it </label>
+            </div>
+            <textarea class="form-control texto bg-yellow-light" id="cipher__cypherPublicKey" rows="5"></textarea>
+            <input type="file" id="inputLoadFile--cipher__cypherPublicKey" name="cipher__cypherPublicKey" class="mt-2"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- Text Area Encrypted Text -->
+      <div class="container bg-blue-light py-2 rounded cardFeas mt-3 shadow-sm">
+        <div class="texto">
+          <label for="cipher__cipherResult" class="text-white">Result</label>
+        </div>
+        <textarea class="form-control texto bg-yellow-light" id="cipher__cipherResult" rows="5" readonly></textarea>
+        <div class= "d-flex justify-content-center">
+          <div class="p-2">
+            <button type="button" class="btn btn-color-amarillo" onclick="firmar();">Cipher</button>
+          </div>
+          <div class="p-2">
+            <a href="#" id="cipher__downloadEncryptedFile" download class="btn bg-success" target=”_blank” style="color:black;">
+              <span>Download file</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Message Let's Decrypt -->
+    <div class="alert  alerta" role="alert">
+      <h4> Verify document!</h4>
+    </div>
+
+    <div class="container bg-blue-light2 py-3 rounded">
+      <p class="h2 text-white">Decipher</p>
+      <div class="row">
+        <!-- Text area to insert the private key from the sender -->
+        <div class="col-sm my-1">
+          <div class="container bg-blue-light py-2 rounded cardFeas shadow-sm">
+            <div class="texto">
+              <label for="cipher__decypherPublicKey" class="text-white">Insert your private key</label>
+            </div>
+            <textarea class="form-control texto bg-yellow-light" id="cipher__decypherPublicKey" rows="5"></textarea>
+            <input type="file" id="inputLoadFile--cipher__decypherPublicKey" name="cipher__decypherPublicKey" class="mt-2"/>
+          </div>
+        </div>
+        <!-- Text area to insert the public key from the recipient -->
+        <div class="col-sm my-1">
+          <div class="container bg-blue-light py-2 rounded cardFeas shadow-sm">
+            <div class="texto">
+              <label for="cipher__decypherText" class="text-white">Insert the text to decipher</label>
+            </div>
+            <textarea class="form-control texto bg-yellow-light" id="cipher__decypherText" rows="5"></textarea>
+            <input type="file" id="inputLoadFile--cipher__decypherText" name="cipher__decypherText" class="mt-2"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- Text Area Encrypted Text -->
+      <div class="container bg-blue-light py-2 rounded cardFeas mt-3 shadow-sm">
+        <div class="texto">
+          <label for="cipher__decipherResult" class="text-white">Result</label>
+        </div>
+        <textarea class="form-control texto bg-yellow-light" id="cipher__decipherResult" rows="5" readonly></textarea>
+        <div class= "d-flex justify-content-center">
+          <div class="p-2">
+            <button type="button" class="btn btn-color-amarillo" onclick="verificarFirma();">Decipher</button>
+          </div>
+          <div class="p-2">
+            <a href="#" id="cipher__downloadDencryptedFile" download class="btn bg-success" target=”_blank” style="color:black;">
+              <span>Download file</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="sign" hidden>
+    <div class="container bg-blue-light2 py-3 rounded">
+      <p class="h2 text-white">Sign document</p>
+      <div class="row">
+        <!-- Text area to insert the private key from the sender -->
+        <div class="col-sm my-1">
+          <div class="container bg-blue-light py-2 rounded cardFeas shadow-sm">
+            <div class="texto">
+              <label for="sign__cypherPrivateKey" class="text-white">Insert your private key</label>
+            </div>
+            <textarea class="form-control texto bg-yellow-light" id="sign__cypherPrivateKey" rows="5"></textarea>
+            <input type="file" id="inputLoadFile--sign__cypherPrivateKey" name="sign__cypherPrivateKey" class="mt-2"/>
+          </div>
+        </div>
+        <!-- Text area to insert the public key from the recipient -->
+        <div class="col-sm my-1">
+          <div class="container bg-blue-light py-2 rounded cardFeas shadow-sm">
+            <div class="texto">
+              <label for="sign__cypherPublicKey" class="text-white">Insert the text to digitally sign it </label>
+            </div>
+            <textarea class="form-control texto bg-yellow-light" id="sign__cypherPublicKey" rows="5"></textarea>
+            <input type="file" id="inputLoadFile--sign__cypherPublicKey" name="sign__cypherPublicKey" class="mt-2"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- Text Area Encrypted Text -->
+      <div class="container bg-blue-light py-2 rounded cardFeas mt-3 shadow-sm">
+        <div class="texto">
+          <label for="sign__cipherResult" class="text-white">Result</label>
+        </div>
+        <textarea class="form-control texto bg-yellow-light" id="sign__cipherResult" rows="5" readonly></textarea>
+        <div class= "d-flex justify-content-center">
+          <div class="p-2">
+            <button type="button" class="btn btn-color-amarillo" onclick="firmar();">Sign</button>
+          </div>
+          <div class="p-2">
+            <a href="#" id="sign__downloadEncryptedFile" download class="btn bg-success" target=”_blank” style="color:black;">
+              <span>Download file</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Message Let's Decrypt -->
+    <div class="alert  alerta" role="alert">
+      <h4> Verify document!</h4>
+    </div>
+
+    <div class="container bg-blue-light2 py-3 rounded">
+      <p class="h2 text-white">Verify</p>
+      <div class="row">
+        <!-- Text area to insert the private key from the sender -->
+        <div class="col-sm my-1">
+          <div class="container bg-blue-light py-2 rounded cardFeas shadow-sm">
+            <div class="texto">
+              <label for="sign__decypherPublicKey" class="text-white">Insert public key</label>
+            </div>
+            <textarea class="form-control texto bg-yellow-light" id="sign__decypherPublicKey" rows="5"></textarea>
+            <input type="file" id="inputLoadFile--sign__decypherPublicKey" name="sign__decypherPublicKey" class="mt-2"/>
+          </div>
+        </div>
+        <!-- Text area to insert the public key from the recipient -->
+        <div class="col-sm my-1">
+          <div class="container bg-blue-light py-2 rounded cardFeas shadow-sm">
+            <div class="texto">
+              <label for="sign__decypherText" class="text-white">Insert the text to verify</label>
+            </div>
+            <textarea class="form-control texto bg-yellow-light" id="sign__decypherText" rows="5"></textarea>
+            <input type="file" id="inputLoadFile--sign__decypherText" name="sign__decypherText" class="mt-2"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- Text Area Encrypted Text -->
+      <div class="container bg-blue-light py-2 rounded cardFeas mt-3 shadow-sm">
+        <div class="texto">
+          <label for="sign__decipherResult" class="text-white">Result</label>
+        </div>
+        <textarea class="form-control texto bg-yellow-light" id="sign__decipherResult" rows="5" readonly></textarea>
+        <div class= "d-flex justify-content-center">
+          <div class="p-2">
+            <button type="button" class="btn btn-color-amarillo" onclick="verificarFirma();">Verify</button>
+          </div>
+          <div class="p-2">
+            <a href="#" id="sign__downloadDencryptedFile" download class="btn bg-success" target=”_blank” style="color:black;">
+              <span>Download file</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="cipherANDSign" hidden>
   <div class="container bg-blue-light2 py-3 rounded">
     <p class="h2 text-white">Sign and encrypt</p>
     <div class="row">
@@ -130,6 +384,7 @@
       </div>
     </div>
   </div>
+  </section>
 
 </div>
 

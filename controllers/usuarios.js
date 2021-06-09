@@ -24,8 +24,107 @@ const usuariosPut = (req , res)=>{
   })
 }
 
+let firmarDocumento = (text, privateKey) =>{
+  //Método para cifrar el hash
+  //Paso 1. Generar el hash del mensaje
+  let shasum = crypto.createHash('sha1');
+  shasum.update(text);
+  const digesto = shasum.digest('hex'); //Ej. "0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33"
+  //Paso 2.Cifrar el digesto con RSA 1024
+  let rsa1024 = new NodeRSA({b: 1024});
+  rsa1024.importKey(privateKey); //Cargamos la llave privada
+  const digestoCifrado = rsa1024.encryptPrivate(digesto, 'base64');
+  //Paso 3.Concatenar el hash cifrado en el documento original
+  let newText = text + digestoCifrado;
+  //console.log(newText)
+  fs.writeFile(publicDir + "\\" + "S(E(M)).txt" , newText, (err) => {
+    // throws an error, you could also catch it here
+    if (err) throw err;
+    // success case, the file was saved
+    console.log('Archivo salvado correctamente!');
+  });
+  return newText;
+}
+
+let verificarDocumento = (text, publicKey) => {
+  //Método para verificar
+  //Paso 1. Obtener el texto original y el digesto cifrado
+  let originalText = text.substring(0, text.length - 344);
+  let digestoCifrado = text.substring(text.length - 344);
+  //Paso 2. Generar el digesto del mensaje original
+  let shasum = crypto.createHash('sha1');
+  shasum.update(originalText);
+  const digesto = shasum.digest('hex'); //Ej. "0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33"
+  //Paso 3. Descifrar el digesto del mensaje
+  let rsa1024 = new NodeRSA({b: 1024});
+  rsa1024.importKey(publicKey);
+  //rsa1024.sign()
+  let digestoDescifrado = rsa1024.decryptPublic(digestoCifrado,'utf8');
+  //let digestoDescifrado = rsa1024.decrypt(digestoCifrado, 'utf8');
+  //Paso 4. Verificar los digestos obtenidos
+  return digesto === digestoDescifrado;
+}
+
 const usuariosPost = async (req , res)=> {
-  let {text, signIt, verify, privateKeyAutor, publicKeyDestination, privateKeyB, publicKeyA} = req.body;
+  let {text, signIt, verify, privateKeyAutor, publicKeyDestination, privateKeyB, publicKeyA, onlySign, onlyVerify, generateKeys} = req.body;
+
+  if(generateKeys){
+    console.log("Generating keys");
+    let key = new NodeRSA().generateKeyPair();
+    let publicKey = key.exportKey("public");
+    let privateKey = key.exportKey("private");
+    let publicKeyFile = publicDir + '\\publicKey.pem';
+    let privateKeyFile = publicDir + '\\privateKey.pem';
+    fs.writeFile(publicKeyFile, publicKey, function (err) {
+      if (err) throw err;
+      console.log('Public key saved!');
+
+    });
+    fs.writeFile(privateKeyFile, privateKey, function (err) {
+      if (err) throw err;
+      console.log('Private key saved!');
+    });
+    let publicKeyURL = req.protocol + "://" + req.headers.host + "/publicKey.pem";
+    let privateKeyURL = req.protocol + "://" + req.headers.host + "/privateKey.pem";
+    res.download(__dirname,publicKeyURL);
+    res.json({
+      ok: true,
+      msg: 'Post API-Controlador',
+      publicKeyURL,
+      privateKeyURL,
+      publicKey,
+      privateKey
+    });
+    return;
+  }
+
+  if(onlyVerify){
+    let signText = await verificarDocumento(text, publicKeyA);
+    if(signText === true){
+      res.json({
+        ok: true,
+        msg: '/S(E(M)).txt',
+        signText: "El mensaje conserva su integridad y su validez"
+      });
+    } else{
+      res.json({
+        ok: true,
+        msg: '/S(E(M)).txt',
+        signText: "El mensaje fue alterado."
+      });
+    }
+    return;
+  }
+
+  if(onlySign){
+    let signText = await firmarDocumento(text, privateKeyAutor);
+    res.json({
+      ok: true,
+      msg: '/S(E(M)).txt',
+      signText: signText
+    });
+    return;
+  }
 
   if(signIt){
     let signText = await cipherHash(text, publicKeyDestination, privateKeyAutor);
