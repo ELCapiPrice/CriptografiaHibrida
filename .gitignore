@@ -1,0 +1,4 @@
+node_modules/
+.idea/
+public/privateKey.txt
+public/publicKey.txt

@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="./css/style.css">
+  <title>Hybrid cryptography!</title>
+</head>
+
+<body>
+<!-- Image and text -->
+<nav class="navbar nav-bar">
+  <a class="navbar-brand" href="#">
+    <img src="./img/cryptography1.png" width="35" height="35" class="d-inline-block align-top " alt="">
+    Hybrid cryptography
+  </a>
+</nav>
+
+<div class="container containerM">
+
+  <div class="container bg-blue-light2 py-3 rounded">
+    <p class="h2 text-white">Sign and encrypt</p>
+    <div class="row">
+      <!-- Text area to insert the private key from the sender -->
+      <div class="col-sm my-1">
+        <div class="container bg-blue-light py-2 rounded cardFeas shadow-sm">
+          <div class="texto">
+            <label for="cypherPrivateKey" class="text-white">Insert your private key</label>
+          </div>
+          <textarea class="form-control texto bg-yellow-light" id="cypherPrivateKey" rows="5"></textarea>
+          <input type="file" id="inputLoadFile--cypherPrivateKey" name="cypherPrivateKey" class="mt-2"/>
+        </div>
+      </div>
+      <!-- Text area to insert the public key from the recipient -->
+      <div class="col-sm my-1">
+        <div class="container bg-blue-light py-2 rounded cardFeas shadow-sm">
+          <div class="texto">
+            <label for="cypherPublicKey" class="text-white">Insert the recipient's public key</label>
+          </div>
+          <textarea class="form-control texto bg-yellow-light" id="cypherPublicKey" rows="5"></textarea>
+          <input type="file" id="inputLoadFile--cypherPublicKey" name="cypherPublicKey" class="mt-2"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- Text Area to Insert Text -->
+    <div class="container bg-blue-light py-2 rounded cardFeas mt-2 shadow-sm">
+      <div class="texto">
+        <label for="cypherText" class="text-white">Enter the information to be encrypted and signed</label>
+      </div>
+      <textarea class="form-control texto bg-yellow-light" id="cypherText" placeholder="Insert the text to digitally sign it" rows="5" wrap></textarea>
+      <input type="file" id="inputLoadFile--cypherText" name="cypherText" class="mt-2" />
+    </div>
+
+    <!-- Text Area Encrypted Text -->
+    <div class="container bg-blue-light py-2 rounded cardFeas mt-3 shadow-sm">
+      <div class="texto">
+        <label for="cipherResult" class="text-white">Result</label>
+      </div>
+      <textarea class="form-control texto bg-yellow-light" id="cipherResult" rows="5" readonly></textarea>
+      <div class= "d-flex justify-content-center">
+        <div class="p-2">
+          <button type="button" class="btn btn-color-amarillo" onclick="signIt();">Sign and encrypt</button>
+        </div>
+        <div class="p-2">
+          <a href="#" id="downloadEncryptedFile" download class="btn bg-success" target=”_blank” style="color:black;">
+            <span>Download file</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Message Let's Decrypt -->
+  <div class="alert  alerta" role="alert">
+    <h4> Verify document!</h4>
+  </div>
+
+  <div class="container bg-blue-light2 py-3 rounded">
+    <p class="h2 text-white">Verify and decipher</p>
+    <div class="row">
+      <!-- Text area to insert the private key from the sender -->
+      <div class="col-sm my-1">
+        <div class="container bg-blue-light py-2 rounded cardFeas shadow-sm">
+          <div class="texto">
+            <label for="decypherPrivateKey" class="text-white">Insert your private key</label>
+          </div>
+          <textarea class="form-control texto bg-yellow-light" id="decypherPrivateKey" rows="5"></textarea>
+          <input type="file" id="inputLoadFile--decypherPrivateKey" name="decypherPrivateKey" class="mt-2"/>
+        </div>
+      </div>
+      <!-- Text area to insert the public key from the recipient -->
+      <div class="col-sm my-1">
+        <div class="container bg-blue-light py-2 rounded cardFeas shadow-sm">
+          <div class="texto">
+            <label for="decypherPublicKey" class="text-white">Insert the sender's public key</label>
+          </div>
+          <textarea class="form-control texto bg-yellow-light" id="decypherPublicKey" rows="5"></textarea>
+          <input type="file" id="inputLoadFile--decypherPublicKey" name="decypherPublicKey" class="mt-2"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- Text Area to Insert Text -->
+    <div class="container bg-blue-light py-2 rounded cardFeas mt-2 shadow-sm">
+      <div class="texto">
+        <label for="decypherText" class="text-white">Enter the information to be deciphered and verified</label>
+      </div>
+      <textarea class="form-control texto bg-yellow-light" id="decypherText" placeholder="Enter the information to be deciphered and verified" rows="5" wrap></textarea>
+      <input type="file" id="inputLoadFile--decypherText" name="decypherText" class="mt-2" />
+    </div>
+
+    <!-- Text Area Encrypted Text -->
+    <div class="container bg-blue-light py-2 rounded cardFeas mt-3 shadow-sm">
+      <div class="texto">
+        <label for="decipherResult" class="text-white">Result</label>
+      </div>
+      <textarea class="form-control texto bg-yellow-light" id="decipherResult" rows="5" readonly></textarea>
+      <div class= "d-flex justify-content-center">
+        <div class="p-2">
+          <button type="button" class="btn btn-color-amarillo" onclick="verifyDocument();">Decrypt and verify</button>
+        </div>
+        <div class="p-2">
+          <a href="#" id="downloadDencryptedFile" download class="btn bg-success" target=”_blank” style="color:black;">
+            <span>Download file</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="footer footer-mine">
+  <div class="container">
+    <img src="./img/cryptography1.png" alt="Escom logo " width="50" height="50">
+    <span class="span-datos">Regis Valero Jorge Jesus</span>
+    <span class="span-datos">Medina Martinez Miguel Angel</span>
+    <span class="span-datos">Group: 3CM13</span>
+  </div>
+</footer>
+
+
+<script type="text/javascript" src="js/encrypt.js"></script>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>

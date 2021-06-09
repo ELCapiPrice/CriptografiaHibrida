@@ -1,0 +1,117 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    background-color: #faf8ed  ;
+}
+
+.nav-bar{
+    background-color: #00539CFF;
+}
+a{
+    color: white;
+}
+.containerM{
+    max-width: 80%;
+    margin-top: 20px;
+}
+.first_text{
+    margin-top: 100px;
+}
+div .texto {
+    resize: none;
+}
+
+
+.btn-color{
+    background-color: #00539CFF;
+    color: white;
+}
+.alerta{
+    margin-top: 50px;
+    background-color: #EEA47FFF;
+    color: #00539CFF;
+}
+
+.alerta h4 {
+    text-align:  center;
+    color: #00539CFF;;
+}
+.btn-color-amarillo{
+    background-color: #EEA47FFF;
+    color: #00539CFF;
+}
+.footer-mine{
+    background-color: #00539CFF ;
+    padding: 15px;
+    margin-top: 30px;
+}
+
+.span-datos{
+    color: white;
+    display: inline-block;
+    padding: 5px;
+    margin-left: 15%;
+}
+
+.input-subir{
+    background-color: darkcyan;
+    padding: 3px;
+
+}
+
+a span{
+    color: white;
+}
+
+.fila-fea{
+    margin-top: 20px;
+}
+
+.ancla{
+    margin-top: 5px;
+    margin-left: 50px;
+}
+
+.boton-grande{
+    margin-bottom: 20px;
+    display: block;
+}
+
+.filita{
+    margin-bottom: 50px;
+    margin-right: 500px;
+}
+
+.columnita{
+    margin-right: 70px;
+}
+
+.contenedorBoton button{
+    margin-left: 100px;
+}
+
+.cardFeas{
+    min-width: 394px;
+}
+
+.bg-blue-light{
+    background-color: #2541b2;
+}
+.bg-blue-dark{
+    background-color: #03256c;
+}
+
+.bg-blue-light2{
+    background-color: #1768ac;
+}
+
+.text-white{
+    color: #f6e4e4;
+}
+
+.bg-yellow-light{
+    background-color: #e5d549;
+}
